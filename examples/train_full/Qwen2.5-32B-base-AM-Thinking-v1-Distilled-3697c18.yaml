@@ -1,0 +1,46 @@
+### model
+model_name_or_path: Qwen/Qwen2.5-32B
+
+### method
+stage: sft
+do_train: true
+finetuning_type: full
+deepspeed: examples/deepspeed/ds_z3_config.json
+enable_liger_kernel: true
+packing: true
+neat_packing: true
+
+
+### dataset
+streaming: false
+dataset: AM-Thinking-3697c18
+tokenized_path: data/am_thinking_dataset_3697c18_tokenized
+template: AM-thinking
+cutoff_len: 32768
+overwrite_cache: true
+preprocessing_num_workers: 100
+dataloader_persistent_workers: true
+dataloader_pin_memory: true
+dataloader_num_workers: 4
+
+
+### output
+resume_from_checkpoint: True
+output_dir: saves/Qwen2.5-32B-base-AM-thinking-distilled-v1-3697c18
+logging_steps: 1
+save_steps: 100
+plot_loss: true
+
+
+### train
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 1
+learning_rate: 1.0e-4
+num_train_epochs: 2.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.05
+bf16: true
+ddp_timeout: 180000000
+
+report_to: wandb
+run_name: Qwen2.5-32B-base-AM-thinking-3697c18
